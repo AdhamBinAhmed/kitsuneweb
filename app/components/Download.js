@@ -52,7 +52,7 @@ export default function Download() {
                   <span className="text-sm uppercase tracking-[0.25em] text-washi-dim">{t.download.releaseLabel}</span>
                 </LangTransition>
                 <span className="mt-1 bg-gradient-to-r from-gold via-shu to-shu-deep bg-clip-text font-display text-6xl font-bold text-transparent">
-                  v30.6
+                  v30.7
                 </span>
               </div>
 

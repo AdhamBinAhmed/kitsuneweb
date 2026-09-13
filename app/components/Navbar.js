@@ -61,7 +61,7 @@ export default function Navbar() {
               className="group inline-flex items-center gap-2 rounded-full border border-shu/50 bg-shu/10 px-5 py-2.5 text-sm font-semibold text-washi transition-colors hover:bg-shu"
             >
               <DownloadIcon className="h-4 w-4" />
-              v30.6
+              v30.7
             </a>
           </div>
         </div>
