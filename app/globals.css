@@ -81,11 +81,27 @@ body {
   background-position: 0 0;
 }
 
+/* Simplify pattern on mobile */
+@media (max-width: 640px) {
+  .bg-seigaiha {
+    background-image:
+      radial-gradient(circle at 50% 100%, transparent 32%, rgba(227, 182, 88, 0.05) 33%, rgba(227, 182, 88, 0.05) 34%, transparent 35%);
+  }
+}
+
 /* warm shrine glow */
 .bg-shrine {
   background:
     radial-gradient(50rem 40rem at 50% -8%, rgba(225, 75, 58, 0.20), transparent 60%),
     radial-gradient(45rem 40rem at 50% 108%, rgba(227, 182, 88, 0.10), transparent 60%);
+}
+
+@media (max-width: 640px) {
+  .bg-shrine {
+    background:
+      radial-gradient(25rem 20rem at 50% -8%, rgba(225, 75, 58, 0.15), transparent 60%),
+      radial-gradient(22rem 20rem at 50% 108%, rgba(227, 182, 88, 0.08), transparent 60%);
+  }
 }
 
 /* Kintsugi gold hairline */
@@ -107,6 +123,14 @@ body {
   50% { transform: translateY(-14px); }
 }
 .animate-mask-float { animation: float-mask 7s ease-in-out infinite; }
+
+/* Reduce float distance on mobile */
+@media (max-width: 640px) {
+  @keyframes float-mask {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+}
 
 @keyframes ember-pulse {
   0%, 100% { opacity: 0.55; }

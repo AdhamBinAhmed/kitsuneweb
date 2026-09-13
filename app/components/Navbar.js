@@ -83,7 +83,7 @@ export default function Navbar() {
     <header
       role="banner"
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled ? "border-b border-line/60 bg-ink/80 backdrop-blur-xl" : "border-b border-transparent"
+        scrolled ? "border-b border-line/60 bg-ink/90 backdrop-blur-md sm:backdrop-blur-xl" : "border-b border-transparent"
       }`}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5" role="navigation" aria-label="Main navigation">
@@ -150,7 +150,7 @@ export default function Navbar() {
       </nav>
 
       {open && (
-        <div id="mobile-menu" role="menu" className="border-t border-line/60 bg-ink/95 px-5 py-3 backdrop-blur-xl md:hidden">
+        <div id="mobile-menu" role="menu" className="border-t border-line/60 bg-ink/95 px-5 py-3 backdrop-blur-md md:hidden">
           <LangTransition>
             {links.map((l) => (
               <a

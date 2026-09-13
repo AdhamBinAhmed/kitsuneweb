@@ -11,11 +11,14 @@ export default function Embers({ className = "" }) {
     const ctx = canvas.getContext("2d");
     let w, h, raf;
     let isVisible = true;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
     // Respect reduced motion preference
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
+
+    // Detect mobile for lighter rendering
+    const isMobile = window.innerWidth < 768 || "ontouchstart" in window;
+    const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
 
     const colors = ["#e14b3a", "#e3b658", "#f06148", "#ffd27a"];
     let particles = [];
@@ -26,14 +29,17 @@ export default function Embers({ className = "" }) {
       canvas.width = w * dpr;
       canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const count = Math.min(70, Math.floor(w / 18));
+      // Fewer particles on mobile
+      const maxCount = isMobile ? 20 : 70;
+      const divisor = isMobile ? 30 : 18;
+      const count = Math.min(maxCount, Math.floor(w / divisor));
       particles = Array.from({ length: count }, () => spawn(true));
     };
 
     const spawn = (initial) => ({
       x: Math.random() * w,
       y: initial ? Math.random() * h : h + 10,
-      r: Math.random() * 2.2 + 0.6,
+      r: isMobile ? Math.random() * 1.6 + 0.4 : Math.random() * 2.2 + 0.6,
       vy: Math.random() * 0.6 + 0.25,
       vx: (Math.random() - 0.5) * 0.3,
       a: Math.random() * 0.6 + 0.2,
@@ -41,12 +47,25 @@ export default function Embers({ className = "" }) {
       color: colors[(Math.random() * colors.length) | 0],
     });
 
-    const draw = () => {
-      if (!isVisible) {
-        raf = requestAnimationFrame(draw);
-        return;
-      }
+    // Throttle to ~30fps on mobile instead of 60fps
+    let lastFrame = 0;
+    const frameInterval = isMobile ? 33 : 0; // ~30fps on mobile
+
+    const draw = (timestamp) => {
+      raf = requestAnimationFrame(draw);
+
+      if (!isVisible) return;
+
+      if (isMobile && timestamp - lastFrame < frameInterval) return;
+      lastFrame = timestamp;
+
       ctx.clearRect(0, 0, w, h);
+
+      // Skip shadowBlur on mobile (huge GPU cost)
+      if (!isMobile) {
+        ctx.shadowBlur = 8;
+      }
+
       for (const p of particles) {
         p.y -= p.vy;
         p.x += p.vx + Math.sin(p.tw) * 0.2;
@@ -57,13 +76,11 @@ export default function Embers({ className = "" }) {
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
         ctx.globalAlpha = flicker;
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = p.color;
+        if (!isMobile) ctx.shadowColor = p.color;
         ctx.fill();
       }
       ctx.globalAlpha = 1;
       ctx.shadowBlur = 0;
-      raf = requestAnimationFrame(draw);
     };
 
     // Pause animation when canvas is off-screen (save CPU/battery)
@@ -82,7 +99,7 @@ export default function Embers({ className = "" }) {
     document.addEventListener("visibilitychange", handleVisibility);
 
     resize();
-    draw();
+    raf = requestAnimationFrame(draw);
     window.addEventListener("resize", resize);
     return () => {
       window.removeEventListener("resize", resize);

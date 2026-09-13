@@ -63,7 +63,7 @@ export default function Hero() {
             href="https://t.me/KitsuneUfork"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-gold/40 bg-lacquer/60 px-8 py-4 font-semibold text-washi backdrop-blur transition-colors hover:border-gold hover:bg-lacquer-2 sm:w-auto"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-gold/40 bg-lacquer/80 px-8 py-4 font-semibold text-washi transition-colors hover:border-gold hover:bg-lacquer-2 sm:bg-lacquer/60 sm:backdrop-blur sm:w-auto"
           >
             <TelegramIcon className="h-5 w-5 text-gold" />
             <LangTransition>{t.hero.telegramBtn}</LangTransition>

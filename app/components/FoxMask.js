@@ -11,6 +11,10 @@ export default function FoxMask({ className = "" }) {
     const wrap = wrapRef.current;
     if (!wrap) return;
 
+    // Skip 3D parallax on touch devices — no mouse to track
+    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    if (isTouchDevice) return;
+
     let raf = 0;
     let tx = 0, ty = 0, cx = 0, cy = 0;
 
@@ -58,15 +62,15 @@ export default function FoxMask({ className = "" }) {
         className="animate-mask-float relative h-full w-full"
         style={{ transformStyle: "preserve-3d", transition: "transform 0.1s linear", willChange: "transform" }}
       >
-        {/* halo glow */}
-        <div className="pointer-events-none absolute inset-0 -z-10 scale-110 rounded-full bg-shu/30 blur-3xl" />
+        {/* halo glow — smaller on mobile */}
+        <div className="pointer-events-none absolute inset-0 -z-10 scale-110 rounded-full bg-shu/30 blur-2xl sm:blur-3xl" />
         <Image
           src="/logo.png"
           alt="Kitsune Mask logo"
           fill
           priority
           sizes="(max-width: 640px) 240px, 320px"
-          className="object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]"
+          className="object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)] sm:drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]"
         />
       </div>
     </div>
