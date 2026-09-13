@@ -71,9 +71,8 @@ export default function Download() {
 
               <div className="mt-10 flex justify-center">
                 <a
-                  href="https://t.me/KitsuneUfork/139"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/Kitsune_30.7_140326.apk"
+                  download
                   className="group inline-flex items-center gap-2.5 rounded-full bg-shu px-9 py-4 text-lg font-semibold text-washi shadow-[0_10px_40px_-8px_rgba(225,75,58,0.6)] transition-transform hover:scale-[1.03]"
                 >
                   <DownloadIcon className="h-6 w-6 transition-transform group-hover:translate-y-0.5" />
