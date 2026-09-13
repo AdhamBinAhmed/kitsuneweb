@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Marquee from "./components/Marquee";
@@ -8,38 +8,47 @@ import Features from "./components/Features";
 import Download from "./components/Download";
 import Footer from "./components/Footer";
 import LangOverlay from "./components/LangOverlay";
+import DownloadSplash from "./components/DownloadSplash";
 
 export default function Home() {
-  // Auto-download APK on first visit
+  const [showSplash, setShowSplash] = useState(false);
+  const [splashDone, setSplashDone] = useState(false);
+
+  // Only show splash on first visit per session
   useEffect(() => {
-    if (sessionStorage.getItem("apk-downloaded")) return;
-    sessionStorage.setItem("apk-downloaded", "1");
-
-    const timer = setTimeout(() => {
-      const a = document.createElement("a");
-      a.href = "/Kitsune_30.7_140326.apk";
-      a.download = "Kitsune_30.7_140326.apk";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    }, 800);
-
-    return () => clearTimeout(timer);
+    if (!sessionStorage.getItem("splash-shown")) {
+      setShowSplash(true);
+      sessionStorage.setItem("splash-shown", "1");
+    } else {
+      setSplashDone(true);
+    }
   }, []);
+
+  const handleSplashComplete = useCallback(() => {
+    setSplashDone(true);
+    setShowSplash(false);
+  }, []);
+
   return (
     <>
-      <a href="#main-content" className="skip-link">
-        Skip to content
-      </a>
-      <Navbar />
-      <main id="main-content">
-        <Hero />
-        <Marquee />
-        <Features />
-        <Download />
-      </main>
-      <Footer />
-      <LangOverlay />
+      {/* Splash overlay — site loads behind it */}
+      {showSplash && <DownloadSplash onComplete={handleSplashComplete} />}
+
+      {/* Main site (always rendered, loads in background) */}
+      <div style={{ visibility: splashDone ? "visible" : "hidden" }}>
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
+        <Navbar />
+        <main id="main-content">
+          <Hero />
+          <Marquee />
+          <Features />
+          <Download />
+        </main>
+        <Footer />
+        <LangOverlay />
+      </div>
     </>
   );
 }
