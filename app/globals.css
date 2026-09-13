@@ -25,6 +25,11 @@
 
 html { scroll-behavior: smooth; }
 
+/* Disable smooth scroll on mobile — causes scroll jank */
+@media (max-width: 640px) {
+  html { scroll-behavior: auto; }
+}
+
 /* Respect users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -64,6 +69,7 @@ body {
   color: var(--color-washi);
   overflow-x: hidden;
   font-family: var(--font-sans);
+  -webkit-overflow-scrolling: touch;
 }
 
 ::selection { background: var(--color-shu); color: var(--color-washi); }
