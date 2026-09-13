@@ -63,6 +63,23 @@ export default function Footer() {
         </div>
 
         <div className="kintsugi mt-12 w-full" />
+
+        <div className="mt-8 flex flex-col items-center gap-3 text-center">
+          <span className="text-sm text-washi-dim">This website was developed in collaboration with</span>
+          <a
+            href="https://megadevs.site"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block transition-opacity hover:opacity-80"
+          >
+            <img
+              src="/mega.jpg"
+              alt="MegaDevs"
+              className="h-12 w-auto rounded-md"
+            />
+          </a>
+        </div>
+
         <LangTransition>
           <div className="mt-6 text-center text-sm text-washi-dim">
             {t.footer.copyright}

@@ -52,9 +52,8 @@ export default function Hero() {
 
         <div className="animate-rise mt-10 flex flex-col items-center gap-4 sm:flex-row" style={{ animationDelay: "0.25s" }}>
           <a
-            href="https://t.me/KitsuneUfork/139"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/Kitsune_30.7_140326.apk"
+            download
             className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-shu px-8 py-4 font-semibold text-washi shadow-[0_10px_40px_-8px_rgba(225,75,58,0.6)] transition-transform hover:scale-[1.03] sm:w-auto"
           >
             <DownloadIcon className="h-5 w-5 transition-transform group-hover:translate-y-0.5" />
