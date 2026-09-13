@@ -10,7 +10,12 @@ export default function Embers({ className = "" }) {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     let w, h, raf;
+    let isVisible = true;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    // Respect reduced motion preference
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
 
     const colors = ["#e14b3a", "#e3b658", "#f06148", "#ffd27a"];
     let particles = [];
@@ -37,6 +42,10 @@ export default function Embers({ className = "" }) {
     });
 
     const draw = () => {
+      if (!isVisible) {
+        raf = requestAnimationFrame(draw);
+        return;
+      }
       ctx.clearRect(0, 0, w, h);
       for (const p of particles) {
         p.y -= p.vy;
@@ -57,11 +66,28 @@ export default function Embers({ className = "" }) {
       raf = requestAnimationFrame(draw);
     };
 
+    // Pause animation when canvas is off-screen (save CPU/battery)
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+      },
+      { threshold: 0 }
+    );
+    visibilityObserver.observe(canvas);
+
+    // Also pause when tab is hidden
+    const handleVisibility = () => {
+      if (document.hidden) isVisible = false;
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+
     resize();
     draw();
     window.addEventListener("resize", resize);
     return () => {
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", handleVisibility);
+      visibilityObserver.disconnect();
       cancelAnimationFrame(raf);
     };
   }, []);

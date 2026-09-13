@@ -32,7 +32,7 @@ export default function Download() {
   const highlights = t.download.highlights;
 
   return (
-    <section id="download" className="relative scroll-mt-24 overflow-hidden py-24 sm:py-32">
+    <section id="download" aria-label="Download Kitsune Mask" className="relative scroll-mt-24 overflow-hidden py-24 sm:py-32">
       <div className="bg-shrine pointer-events-none absolute inset-0 -z-10 opacity-80" />
 
       <div className="mx-auto max-w-3xl px-5">
@@ -73,6 +73,7 @@ export default function Download() {
                 <a
                   href="/Kitsune_30.7_140326.apk"
                   download
+                  aria-label="Download Kitsune Mask v30.7 APK"
                   className="group inline-flex items-center gap-2.5 rounded-full bg-shu px-9 py-4 text-lg font-semibold text-washi shadow-[0_10px_40px_-8px_rgba(225,75,58,0.6)] transition-transform hover:scale-[1.03]"
                 >
                   <DownloadIcon className="h-6 w-6 transition-transform group-hover:translate-y-0.5" />

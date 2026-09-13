@@ -8,7 +8,7 @@ export default function Footer() {
   const { t } = useLang();
 
   return (
-    <footer className="relative overflow-hidden border-t border-line/60 pt-16 pb-10">
+    <footer role="contentinfo" className="relative overflow-hidden border-t border-line/60 pt-16 pb-10">
       <div className="bg-seigaiha pointer-events-none absolute inset-0 opacity-40" />
       <div className="relative mx-auto max-w-6xl px-5">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
@@ -24,15 +24,16 @@ export default function Footer() {
             </LangTransition>
             <div className="mt-5 flex gap-3">
               {[
-                { Icon: TelegramIcon, href: "https://t.me/KitsuneUfork" },
-                { Icon: GlobeIcon, href: "#" },
-                { Icon: CubeIcon, href: "#" },
+                { Icon: TelegramIcon, href: "https://t.me/KitsuneUfork", ariaLabel: "Kitsune Mask on Telegram" },
+                { Icon: GlobeIcon, href: "#", ariaLabel: "Visit website" },
+                { Icon: CubeIcon, href: "#", ariaLabel: "View on GitHub" },
               ].map((s, i) => (
                 <a
                   key={i}
                   href={s.href}
                   target={s.href.startsWith("http") ? "_blank" : undefined}
                   rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  aria-label={s.ariaLabel}
                   className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line/70 bg-lacquer text-washi-dim transition-colors hover:border-shu/50 hover:text-shu"
                 >
                   <s.Icon className="h-5 w-5" />
@@ -75,6 +76,8 @@ export default function Footer() {
             <img
               src="/mega.jpg"
               alt="MegaDevs"
+              loading="lazy"
+              decoding="async"
               className="h-12 w-auto rounded-md"
             />
           </a>

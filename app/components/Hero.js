@@ -10,7 +10,7 @@ export default function Hero() {
   const { t } = useLang();
 
   return (
-    <section id="home" className="relative min-h-[100svh] overflow-hidden">
+    <section id="home" aria-label="Welcome to Kitsune Mask" className="relative min-h-[100svh] overflow-hidden">
       {/* backgrounds */}
       <div className="bg-shrine pointer-events-none absolute inset-0 -z-30" />
       <div className="bg-seigaiha pointer-events-none absolute inset-0 -z-20 opacity-70" />
