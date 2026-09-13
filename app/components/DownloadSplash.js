@@ -4,53 +4,32 @@ import { useEffect, useState } from "react";
 
 export default function DownloadSplash({ onComplete }) {
   const [progress, setProgress] = useState(0);
-  const [status, setStatus] = useState("starting"); // starting → downloading → done
   const [fadeOut, setFadeOut] = useState(false);
 
+  // Animate progress bar (simulates site loading)
   useEffect(() => {
-    // Start download after a brief moment
-    const startTimer = setTimeout(() => {
-      setStatus("downloading");
-
-      // Trigger actual APK download
-      const a = document.createElement("a");
-      a.href = "/Kitsune_30.7_140326.apk";
-      a.download = "Kitsune_30.7_140326.apk";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    }, 600);
-
-    return () => clearTimeout(startTimer);
-  }, []);
-
-  // Animate progress bar
-  useEffect(() => {
-    if (status !== "downloading") return;
-
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          setStatus("done");
           return 100;
         }
-        // Fast start, slower middle, fast finish
         const increment = prev < 30 ? 4 : prev < 70 ? 2 : prev < 90 ? 3 : 5;
         return Math.min(prev + increment, 100);
       });
     }, 60);
 
     return () => clearInterval(interval);
-  }, [status]);
+  }, []);
 
-  // After done, fade out and reveal the site
+  // After progress completes, fade out
   useEffect(() => {
-    if (status !== "done") return;
-    const timer = setTimeout(() => setFadeOut(true), 800);
+    if (progress < 100) return;
+    const timer = setTimeout(() => setFadeOut(true), 600);
     return () => clearTimeout(timer);
-  }, [status]);
+  }, [progress]);
 
+  // After fade out, notify parent
   useEffect(() => {
     if (!fadeOut) return;
     const timer = setTimeout(() => onComplete(), 700);
@@ -131,15 +110,12 @@ export default function DownloadSplash({ onComplete }) {
           </h1>
         </div>
 
-        {/* Status text */}
-        <p
-          className="text-sm tracking-wider transition-opacity duration-300"
-          style={{ color: "#b9a894" }}
-        >
-          {status === "starting" && "Preparing download…"}
-          {status === "downloading" && "Your download is starting…"}
-          {status === "done" && "Download started ✓"}
-        </p>
+        {/* Loading dots */}
+        <div className="flex gap-2 mt-1">
+          <span className="lang-curtain-dot" />
+          <span className="lang-curtain-dot" />
+          <span className="lang-curtain-dot" />
+        </div>
 
         {/* Progress bar */}
         <div className="w-64 sm:w-80">
@@ -156,44 +132,7 @@ export default function DownloadSplash({ onComplete }) {
               }}
             />
           </div>
-          <div className="mt-2 flex justify-between text-xs" style={{ color: "#b9a894" }}>
-            <span>Kitsune_30.7.apk</span>
-            <span>{progress}%</span>
-          </div>
         </div>
-
-        {/* Download icon animation */}
-        <div
-          className="mt-2"
-          style={{
-            color: status === "done" ? "#4bbf8f" : "#e14b3a",
-            transition: "color 0.4s ease",
-          }}
-        >
-          {status === "done" ? (
-            <svg viewBox="0 0 24 24" fill="none" className="h-8 w-8" style={{ animation: "rise 0.5s ease both" }}>
-              <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          ) : (
-            <svg viewBox="0 0 24 24" fill="none" className="h-8 w-8" style={{ animation: "download-bounce 1.2s ease-in-out infinite" }}>
-              <path d="M12 4v10m0 0l-4-4m4 4l4-4M5 18h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          )}
-        </div>
-
-        {/* Skip button */}
-        {!fadeOut && (
-          <button
-            onClick={() => setFadeOut(true)}
-            className="mt-4 rounded-full border px-6 py-2 text-sm font-medium transition-colors hover:bg-white/5"
-            style={{
-              borderColor: "rgba(58,42,37,0.7)",
-              color: "#b9a894",
-            }}
-          >
-            {status === "done" ? "Enter Website" : "Skip"}
-          </button>
-        )}
       </div>
     </div>
   );
