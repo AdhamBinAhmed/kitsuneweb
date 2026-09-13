@@ -41,7 +41,7 @@ export default function Download() {
             {/* torii framing */}
             <Torii className="absolute -top-8 left-1/2 h-40 w-[110%] -translate-x-1/2 opacity-90 drop-shadow-[0_6px_16px_rgba(143,29,19,0.4)] sm:drop-shadow-[0_10px_30px_rgba(143,29,19,0.5)]" />
 
-            <div className="relative mt-28 rounded-3xl border border-gold/25 bg-lacquer/90 p-8 text-center backdrop-blur-md sm:bg-lacquer/80 sm:backdrop-blur-xl sm:p-12">
+            <div className="relative mt-28 rounded-3xl border border-gold/25 bg-lacquer p-8 text-center sm:bg-lacquer/80 sm:backdrop-blur-xl sm:p-12">
               <span className="font-display text-sm tracking-[0.3em] text-gold">{t.download.offering}</span>
               <LangTransition>
                 <h2 className="mt-3 font-display text-4xl font-bold sm:text-5xl">{t.download.title}</h2>

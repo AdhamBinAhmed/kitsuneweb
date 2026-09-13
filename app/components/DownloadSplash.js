@@ -14,10 +14,10 @@ export default function DownloadSplash({ onComplete }) {
           clearInterval(interval);
           return 100;
         }
-        const increment = prev < 30 ? 4 : prev < 70 ? 2 : prev < 90 ? 3 : 5;
+        const increment = prev < 30 ? 4 : prev < 70 ? 3 : prev < 90 ? 3 : 5;
         return Math.min(prev + increment, 100);
       });
-    }, 60);
+    }, 55);
 
     return () => clearInterval(interval);
   }, []);
@@ -25,20 +25,20 @@ export default function DownloadSplash({ onComplete }) {
   // After progress completes, fade out
   useEffect(() => {
     if (progress < 100) return;
-    const timer = setTimeout(() => setFadeOut(true), 600);
+    const timer = setTimeout(() => setFadeOut(true), 300);
     return () => clearTimeout(timer);
   }, [progress]);
 
   // After fade out, notify parent
   useEffect(() => {
     if (!fadeOut) return;
-    const timer = setTimeout(() => onComplete(), 700);
+    const timer = setTimeout(() => onComplete(), 500);
     return () => clearTimeout(timer);
   }, [fadeOut, onComplete]);
 
   return (
     <div
-      className={`fixed inset-0 z-[9998] flex flex-col items-center justify-center transition-all duration-700 ${
+      className={`fixed inset-0 z-[9998] flex flex-col items-center justify-center transition-all duration-500 ${
         fadeOut ? "pointer-events-none opacity-0 scale-105" : "opacity-100"
       }`}
       style={{
